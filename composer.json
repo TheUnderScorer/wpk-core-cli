@@ -1,7 +1,7 @@
 {
   "name": "the-under-scorer/wpk-core-cli",
   "version": "1.0",
-  "license": "MIT"
+  "license": "MIT",
   "require": {
     "ext-readline": "*",
     "symfony/console": "^4.3",
