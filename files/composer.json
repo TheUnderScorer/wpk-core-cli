@@ -1,0 +1,16 @@
+{
+  "version": "1.0",
+  "require": {
+    "the-under-scorer/wpk-core": "^1.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "WPK\\": "app/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "WPK\\Tests\\": "tests/phpunit"
+    }
+  }
+}

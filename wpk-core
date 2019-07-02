@@ -1,0 +1,33 @@
+#!/usr/bin/env php
+<?php
+
+use Symfony\Component\Console\Application;
+use Symfony\Component\Filesystem\Filesystem;
+use UnderScorer\CoreCli\Commands\InstallCommand;
+
+$rootDir = __DIR__;
+
+$paths = [
+    $rootDir . '/vendor/autoload.php',
+    $rootDir . '../../../autoload.php',
+];
+
+foreach ( $paths as $path ) {
+    if ( file_exists( $path ) ) {
+        require $path;
+        break;
+    }
+}
+
+$filesystem = new Filesystem();
+
+$app = new Application( 'WPK Core CLI', '1.0' );
+$app->add( new InstallCommand( $filesystem, $rootDir ) );
+
+try {
+    $app->run();
+} catch ( Exception $e ) {
+    echo "Error occured: {$e->getMessage()}";
+
+    exit( 1 );
+}

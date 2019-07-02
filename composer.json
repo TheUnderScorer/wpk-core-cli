@@ -1,0 +1,25 @@
+{
+  "version": "1.0",
+  "require": {
+    "ext-readline": "*",
+    "symfony/console": "^4.3",
+    "symfony/filesystem": "^4.3",
+    "symfony/process": "^4.3"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^8"
+  },
+  "autoload": {
+    "psr-4": {
+      "UnderScorer\\CoreCli\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "UnderScorer\\CoreCli\\Tests\\": "tests/phpunit"
+    }
+  },
+  "bin": [
+    "wpk-core"
+  ]
+}
