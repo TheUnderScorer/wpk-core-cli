@@ -1,5 +1,7 @@
 <?php
 
+namespace WPK\Core;
+
 /*
 Plugin Name: WPK Core
 Plugin URI: https://wpkraken.io/
@@ -10,6 +12,7 @@ Version: 1.2
 Text Domain: wpk-core
 */
 
+use Exception;
 use UnderScorer\Core\AcfSettings;
 use UnderScorer\Core\App;
 use UnderScorer\Core\Settings;

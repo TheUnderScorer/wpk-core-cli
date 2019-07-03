@@ -2,6 +2,7 @@
 
 use UnderScorer\Core\Providers\CacheProvider;
 use UnderScorer\Core\Providers\CoreMenuProvider;
+use UnderScorer\Core\Providers\DatabaseProvider;
 use UnderScorer\Core\Providers\EnqueueProvider;
 use UnderScorer\Core\Providers\FileSystemProvider;
 use UnderScorer\Core\Providers\LoggerProvider;
@@ -18,4 +19,5 @@ return [
     NoticesProvider::class,
     CoreMenuProvider::class,
     LoggerProvider::class,
+    DatabaseProvider::class,
 ];
