@@ -8,6 +8,7 @@ use UnderScorer\Core\Providers\FileSystemProvider;
 use UnderScorer\Core\Providers\LoggerProvider;
 use UnderScorer\Core\Providers\NoticesProvider;
 use UnderScorer\Core\Providers\SerializerProvider;
+use UnderScorer\Core\Providers\ValidationProvider;
 use UnderScorer\Core\Providers\ViewProvider;
 
 return [
@@ -20,4 +21,5 @@ return [
     CoreMenuProvider::class,
     LoggerProvider::class,
     DatabaseProvider::class,
+    ValidationProvider::class,
 ];
