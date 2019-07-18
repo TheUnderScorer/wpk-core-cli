@@ -8,7 +8,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
-
 /**
  * Class Install
  * @package UnderScorer\Core\Cli\Commands
@@ -112,7 +111,6 @@ class InstallCommand extends BaseCommand
         return $this->rootDir . DIRECTORY_SEPARATOR . 'files';
     }
 
-
     /**
      * @param OutputInterface $output
      *
@@ -120,21 +118,22 @@ class InstallCommand extends BaseCommand
      */
     protected function installDependencies( OutputInterface $output ): void
     {
+        $this->handleComposer( $output );
+        $this->handleNPM( $output );
+    }
+
+    /**
+     * @param OutputInterface $output
+     */
+    protected function handleComposer( OutputInterface $output ): void
+    {
         $composer = $this->findComposer();
 
         $commands = [
             "$composer install --prefer-dist --no-interaction",
         ];
 
-        $process = new Process( implode( '&&', $commands ), $this->targetDir );
-
-        $process->run( function ( $type, $line ) use ( $output ) {
-            $output->write( $line );
-        } );
-
-        if ( ! $process->isSuccessful() ) {
-            throw new ProcessFailedException( $process );
-        }
+        $this->handleProcess( $commands, $output );
     }
 
     /**
@@ -150,6 +149,39 @@ class InstallCommand extends BaseCommand
         }
 
         return 'composer';
+    }
+
+    /**
+     * Calls process with given commands
+     *
+     * @param array           $commands
+     * @param OutputInterface $output
+     */
+    protected function handleProcess( array $commands, OutputInterface $output ): void
+    {
+        $process = new Process( implode( '&&', $commands ), $this->targetDir, null, null, false );
+
+        $process->run( function ( $type, $line ) use ( $output ) {
+            $output->write( $line );
+        } );
+
+        if ( ! $process->isSuccessful() ) {
+            throw new ProcessFailedException( $process );
+        }
+    }
+
+    /**
+     * @param OutputInterface $output
+     */
+    protected function handleNPM( OutputInterface $output ): void
+    {
+        $npm = 'npm';
+
+        $commands = [
+            "$npm install",
+        ];
+
+        $this->handleProcess( $commands, $output );
     }
 
 }
