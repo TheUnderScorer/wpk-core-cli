@@ -1,14 +1,7 @@
 <?php
 
-/**
- * Enter your migrations that extend Migrations class below
- *
- * @example
- * return [
- *      TestMigration::class
- * ]
- */
+use UnderScorer\Core\Database\Migrations\CacheMigration;
 
 return [
-
+    CacheMigration::class,
 ];

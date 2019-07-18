@@ -1,0 +1,61 @@
+{
+  "extends": [
+    "tslint:recommended"
+  ],
+  "rules": {
+    "interface-name": [
+      true,
+      "never-prefix"
+    ],
+    "jsx-boolean-value": [
+      "error",
+      "never"
+    ],
+    "jsx-no-multiline-js": [
+      "error",
+      "never"
+    ],
+    "quotemark": [
+      "single"
+    ],
+    "jsx-curly-spacing": [
+      false
+    ],
+    "semicolon": [
+      "always"
+    ],
+    "ordered-imports": {
+      "options": {
+        "import-sources-order": "any",
+        "named-imports-order": "any"
+      }
+    },
+    "object-literal-sort-keys": {
+      "options": "match-declaration-order"
+    },
+    "jsx-aligment": [
+      false
+    ],
+    "prefer-const": [
+      false
+    ],
+    "no-trailing-whitespace": [
+      false
+    ],
+    "member-ordering": [
+      false
+    ],
+    "jsdoc-format": [
+      false
+    ],
+    "variable-name": [
+      false
+    ],
+    "max-line-length": [
+      false
+    ],
+    "triple-equals": [
+      false
+    ]
+  }
+}

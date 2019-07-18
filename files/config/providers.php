@@ -1,7 +1,6 @@
 <?php
 
 use UnderScorer\Core\Providers\CacheProvider;
-use UnderScorer\Core\Providers\CoreMenuProvider;
 use UnderScorer\Core\Providers\DatabaseProvider;
 use UnderScorer\Core\Providers\EnqueueProvider;
 use UnderScorer\Core\Providers\FileSystemProvider;
@@ -18,7 +17,6 @@ return [
     EnqueueProvider::class,
     ViewProvider::class,
     NoticesProvider::class,
-    CoreMenuProvider::class,
     LoggerProvider::class,
     DatabaseProvider::class,
     ValidationProvider::class,

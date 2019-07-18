@@ -6,4 +6,8 @@
  * In order to add module you only need to add reference to it's class (that extends base Module class) to array below.
  */
 
-return apply_filters( 'wpk/modules', [] );
+use UnderScorer\Core\CoreModule;
+
+return apply_filters( 'wpk/modules', [
+    'core' => CoreModule::class,
+] );

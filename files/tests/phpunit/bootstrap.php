@@ -53,11 +53,6 @@ $app = require $dir . '/../../index.php';
 
 TestCase::setApp( $app );
 
-$file = plugin_basename( $app->getFile() );
-
 do_action( 'plugins_loaded' );
-
-// Trigger activation hook
-do_action( 'activate_' . $file );
 
 

@@ -42,7 +42,6 @@ function install( AppInterface $app )
     setHelpers( $app );
     registerCrons( $app );
     modules( $app );
-    controllers( $app );
 
     $enqueue = $app->make( Enqueue::class );
     enqueue( $enqueue );
@@ -107,21 +106,4 @@ function modules( AppInterface $app ): void
     foreach ( $modules as $ID => $module ) {
         new $module( $ID, $app, new ServiceContainer );
     }
-}
-
-/**
- * Registers app controllers
- *
- * @param AppInterface $app
- *
- * @return void
- */
-function controllers( AppInterface $app ): void
-{
-    // Load core controllers
-    $controllers = require_once $app->getPath( 'config' ) . 'controllers.php';
-
-    add_action( 'plugins_loaded', function () use ( $app, $controllers ) {
-        $app->loadControllers( $controllers );
-    } );
 }
