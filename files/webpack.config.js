@@ -1,12 +1,13 @@
 const path = require( 'path' );
 
 module.exports = {
-    // Fill your entry here
-    entry:     {},
-    resolve:   {
+    entry:   {
+        app: './src/ts/',
+    },
+    resolve: {
         extensions: [ '.ts', '.tsx', '.js' ],
     },
-    module:    {
+    module:  {
         rules: [
             {
                 test:   /\.tsx?$/,
