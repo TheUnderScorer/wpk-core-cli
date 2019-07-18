@@ -16,16 +16,6 @@ abstract class HttpTestCase extends TestCase
 {
 
     /**
-     * @var App Instance of app that is being tested
-     */
-    protected static $app;
-
-    /**
-     * @var ControllerFactory
-     */
-    protected static $controllerFactory;
-
-    /**
      * @param string  $controller
      * @param Request $request
      *
@@ -37,7 +27,7 @@ abstract class HttpTestCase extends TestCase
         /**
          * @var HttpController $instance
          */
-        $instance = parent::$controllerFactory->make( $controller );
+        $instance = parent::$app->make( $controller );
 
         if ( $request ) {
             $instance->setRequest( $request );
