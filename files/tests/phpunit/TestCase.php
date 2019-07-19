@@ -4,7 +4,6 @@ namespace WPK\Tests;
 
 use UnderScorer\Core\App;
 use WP_Ajax_UnitTestCase as BaseTestCase;
-use WPK\Tests\Common\Factories\ControllerFactory;
 
 /**
  * Class TestCase
@@ -17,11 +16,6 @@ abstract class TestCase extends BaseTestCase
      * @var App Instance of app that is being tested
      */
     protected static $app;
-
-    /**
-     * @var ControllerFactory
-     */
-    protected static $controllerFactory;
 
     /**
      * @return App
@@ -37,8 +31,6 @@ abstract class TestCase extends BaseTestCase
     public static function setApp( App $app ): void
     {
         self::$app = $app;
-
-        self::$controllerFactory = new ControllerFactory( $app );
     }
 
     /**
@@ -48,7 +40,6 @@ abstract class TestCase extends BaseTestCase
      */
     protected function login( string $role = 'administrator' ): int
     {
-
         $user = $this->factory()->user->create( [
             'role' => $role,
         ] );
@@ -56,7 +47,6 @@ abstract class TestCase extends BaseTestCase
         wp_set_current_user( $user );
 
         return $user;
-
     }
 
 }

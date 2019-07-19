@@ -1,4 +1,4 @@
-import LoaderItem from './types/LoaderItem';
+import LoaderItem from '../types/LoaderItem';
 
 export default ( items: LoaderItem[] ): Promise<number> =>
 {

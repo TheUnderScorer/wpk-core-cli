@@ -1,5 +1,5 @@
-import $, { $body } from './constants/jquery';
-import ModalSettings from './types/ModalSettings';
+import $, { $body } from '../constants/jquery';
+import ModalSettings from '../types/ModalSettings';
 import { loadDatepicker } from './app/datePickers';
 
 /**

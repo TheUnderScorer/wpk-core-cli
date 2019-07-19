@@ -2,7 +2,8 @@ const path = require( 'path' );
 
 module.exports = {
     entry:   {
-        app: './src/ts/',
+        app:    './src/ts/',
+        styles: './src/ts/core/styles.ts'
     },
     resolve: {
         extensions: [ '.ts', '.tsx', '.js' ],
