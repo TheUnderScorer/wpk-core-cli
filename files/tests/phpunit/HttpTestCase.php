@@ -27,7 +27,7 @@ abstract class HttpTestCase extends TestCase
         /**
          * @var HttpController $instance
          */
-        $instance = parent::$app->make( $controller );
+        $instance = self::$app->make( $controller );
 
         if ( $request ) {
             $instance->setRequest( $request );
