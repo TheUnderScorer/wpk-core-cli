@@ -7,8 +7,7 @@ if ( ! function_exists( 'getFieldByKey' ) ):
      *
      * @return bool|mixed
      */
-    function getFieldByKey( string $key )
-    {
+    function getFieldByKey( string $key ) {
         return _acf_get_field_by_key( $key );
     }
 

@@ -2,8 +2,7 @@
 
 use UnderScorer\Core\Enqueue;
 
-function enqueue( Enqueue $enqueue ): void
-{
+function enqueue( Enqueue $enqueue ): void {
 
     $enqueue
         ->enqueueScript( [

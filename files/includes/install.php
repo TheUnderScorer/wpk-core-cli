@@ -3,8 +3,6 @@
 namespace WPK\Core;
 
 use Dotenv\Dotenv;
-use Exception;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use SuperClosure\Serializer;
 use UnderScorer\Core\Contracts\AppInterface;
 use UnderScorer\Core\Cron\Queue\Queue;
@@ -31,7 +29,7 @@ function requireFiles( string $includes ): void
  *
  * @param AppInterface $app
  *
- * @throws Exception
+ * @throws \Exception
  */
 function install( AppInterface $app )
 {
@@ -63,7 +61,7 @@ function install( AppInterface $app )
  * @param AppInterface $app
  *
  * @return void
- * @throws BindingResolutionException
+ * @throws \Illuminate\Contracts\Container\BindingResolutionException
  */
 function setHelpers( AppInterface $app ): void
 {

@@ -7,8 +7,7 @@ namespace UnderScorer\Core\Http;
  *
  * @return Response
  */
-function response(): Response
-{
+function response(): Response {
 
     static $response = null;
 
@@ -25,8 +24,7 @@ function response(): Response
  *
  * @return Request
  */
-function request(): Request
-{
+function request(): Request {
 
     static $request = null;
 

@@ -22,7 +22,7 @@ if ( ! defined( 'CORE_SLUG' ) ) {
 }
 
 if ( ! defined( 'CORE_VERSION' ) ) {
-    define( 'CORE_VERSION', '1.3.7' );
+    define( 'CORE_VERSION', '1.3.6' );
 }
 
 $dir  = __DIR__;
