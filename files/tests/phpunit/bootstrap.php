@@ -44,8 +44,6 @@ if ( false !== getenv( 'WP_THEMES_DIR' ) ) {
 // Start up the WP testing environment.
 require $testsDir . '/includes/bootstrap.php';
 
-require $dir . '/../../../ez_sked/ez_sked.php';
-
 /**
  * @var App $app
  */
