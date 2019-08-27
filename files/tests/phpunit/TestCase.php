@@ -19,11 +19,6 @@ abstract class TestCase extends BaseTestCase
     protected static $app;
 
     /**
-     * @var ControllerFactory
-     */
-    protected static $controllerFactory;
-
-    /**
      * @return App
      */
     public static function getApp(): App
@@ -37,8 +32,6 @@ abstract class TestCase extends BaseTestCase
     public static function setApp( App $app ): void
     {
         self::$app = $app;
-
-        self::$controllerFactory = new ControllerFactory( $app );
     }
 
     /**
