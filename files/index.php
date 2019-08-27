@@ -21,18 +21,11 @@ if ( ! defined( 'CORE_SLUG' ) ) {
     define( 'CORE_SLUG', 'wpk' );
 }
 
-if ( ! defined( 'CORE_VERSION' ) ) {
-    define( 'CORE_VERSION', '1.3.6' );
-}
-
 $dir  = __DIR__;
 $slug = CORE_SLUG;
 
 // Require composer autoloader
 require_once $dir . '/../vendor/autoload.php';
-
-// Require plugin installation function
-require_once $dir . '/includes/install.php';
 
 try {
 
@@ -45,8 +38,6 @@ try {
         __FILE__,
         $settings
     );
-
-    install( $app );
 
     return $app;
 

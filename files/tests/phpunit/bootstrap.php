@@ -11,7 +11,7 @@ $dir = __DIR__;
 
 require_once $dir . '/../../vendor/autoload.php';
 
-$testsDir = __DIR__ . '/Suite/tests/phpunit';
+$testsDir = __DIR__ . '/Suite/wordpress-tests-lib';
 
 if ( ! file_exists( $testsDir ) ) {
     $dotenv = Dotenv::create( $dir );
@@ -43,6 +43,8 @@ if ( false !== getenv( 'WP_THEMES_DIR' ) ) {
 
 // Start up the WP testing environment.
 require $testsDir . '/includes/bootstrap.php';
+
+require $dir . '/../../../ez_sked/ez_sked.php';
 
 /**
  * @var App $app
