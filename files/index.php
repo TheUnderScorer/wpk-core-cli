@@ -25,7 +25,7 @@ $dir  = __DIR__;
 $slug = CORE_SLUG;
 
 // Require composer autoloader
-require_once $dir . '/../vendor/autoload.php';
+require_once $dir . '/vendor/autoload.php';
 
 try {
 
