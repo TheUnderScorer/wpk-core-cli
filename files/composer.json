@@ -10,7 +10,8 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "WPK\\Tests\\": "tests/phpunit"
+      "WPK\\Tests\\": "tests/phpunit",
+      "UnderScorer\\Core\\Tests\\": "vendor/the-under-scorer/wpk-core/tests/phpunit"
     }
   }
 }

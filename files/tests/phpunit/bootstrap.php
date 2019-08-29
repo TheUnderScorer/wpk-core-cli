@@ -2,7 +2,7 @@
 
 use Dotenv\Dotenv;
 use UnderScorer\Core\App;
-use WPK\Tests\TestCase;
+use UnderScorer\Core\Tests\TestCase;
 
 define( 'TESTS_DIR', __DIR__ );
 define( 'DATA_DIR', TESTS_DIR . '/data' );
@@ -14,17 +14,9 @@ require_once $dir . '/../../vendor/autoload.php';
 $testsDir = __DIR__ . '/Suite/wordpress-tests-lib';
 
 if ( ! file_exists( $testsDir ) ) {
-    $dotenv = Dotenv::create( $dir );
-    $dotenv->load();
+    echo 'Error! No test suite found.';
 
-    $testsDir = getenv( 'WP_TESTS_DIR' );
-
-    if ( ! $testsDir ) {
-        echo 'Error! You need to either setup tests suite using docker-compose or provide path to your own tests suite in WP_TESTS_DIR env variable.';
-
-        return;
-    }
-
+    return;
 }
 
 // Give access to tests_add_filter() function.
@@ -37,14 +29,8 @@ if ( function_exists( 'xdebug_disable' ) ) {
 
 define( 'WP_PLUGIN_DIR', $dir . '../../../' );
 
-if ( false !== getenv( 'WP_THEMES_DIR' ) ) {
-    define( 'WP_THEMES_DIR', getenv( 'WP_THEMES_DIR' ) );
-}
-
 // Start up the WP testing environment.
 require $testsDir . '/includes/bootstrap.php';
-
-require $dir . '/../../../ez_sked/ez_sked.php';
 
 /**
  * @var App $app
