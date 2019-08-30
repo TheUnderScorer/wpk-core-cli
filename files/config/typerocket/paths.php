@@ -1,12 +1,5 @@
 <?php
 
-use UnderScorer\Core\App;
-
-/**
- * @var App $app
- */
-$app = $this->app;
-
 return [
     /*
     |--------------------------------------------------------------------------
@@ -17,8 +10,8 @@ return [
     |
     */
     'urls'       => [
-        'assets'     => $app->getUrl( 'vendor/typerocket/typerocket/wordpress/assets' ),
-        'components' => $app->getUrl( 'vendor/typerocket/typerocket/wordpress/assets/components' ),
+        'assets'     => TR_URL . '/wordpress/assets',
+        'components' => TR_URL . '/assets/components',
     ],
 
     /*

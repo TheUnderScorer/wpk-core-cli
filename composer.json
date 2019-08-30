@@ -1,6 +1,6 @@
 {
   "name": "the-under-scorer/wpk-core-cli",
-  "version": "1.2.7",
+  "version": "1.2.8",
   "license": "MIT",
   "require": {
     "ext-readline": "*",
