@@ -29,9 +29,7 @@ require_once $dir . '/vendor/autoload.php';
 
 try {
 
-    $settings = function_exists( 'get_field' ) ?
-        new AcfSettings( $slug ) :
-        new Settings( $slug );
+    $settings = new Settings( $slug );
 
     $app = new App(
         $slug,
