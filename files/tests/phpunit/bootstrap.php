@@ -11,7 +11,7 @@ $dir = __DIR__;
 
 require_once $dir . '/../../vendor/autoload.php';
 
-$testsDir = __DIR__ . '/Suite/tests/phpunit';
+$testsDir = __DIR__ . '/WPSuite/tests/phpunit';
 
 if ( ! file_exists( $testsDir ) ) {
     echo 'Error! No test suite found.';
