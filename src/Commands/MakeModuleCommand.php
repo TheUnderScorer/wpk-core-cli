@@ -3,7 +3,6 @@
 namespace UnderScorer\CoreCli\Commands;
 
 use Exception;
-use Illuminate\Support\Arr;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -110,6 +109,8 @@ final class MakeModuleCommand extends BaseCommand
         $output->writeln( 'Adding module into modules.php ...' );
 
         $this->appendToModules( $fullClassName, $moduleName );
+
+        $output->writeln( '<comment>Module added into your modules config. All done!</comment>' );
     }
 
     /**
@@ -171,8 +172,7 @@ final class MakeModuleCommand extends BaseCommand
      */
     private function appendToModules( string $moduleClass, string $moduleName ): void
     {
-        $moduleID               = lcfirst( $moduleName );
-        $partialModuleClassName = Arr::last( explode( '\\', $moduleClass ) );
+        $moduleID = lcfirst( $moduleName );
 
         $modulesConfigFilePath = Path::join( $this->getRootDir(), 'config.' ) . 'modules.php';
 
@@ -208,7 +208,6 @@ final class MakeModuleCommand extends BaseCommand
         EOL;
 
         $this->getFilesystem()->dumpFile( $modulesConfigFilePath, trim( $configFileContent ) );
-
     }
 
 }

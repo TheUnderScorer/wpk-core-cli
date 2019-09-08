@@ -24,7 +24,7 @@ foreach ( $paths as $path ) {
 $container = require $rootDir . '/services.php';
 
 try {
-    $app = new Application( 'WPK Core CLI', '1.2.6' );
+    $app = new Application( 'WPK Core CLI', '1.4.1' );
     $app->add( $container->make( InstallCommand::class ) );
     $app->add( $container->make( MakeModuleCommand::class ) );
 
