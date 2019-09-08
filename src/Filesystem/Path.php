@@ -10,6 +10,16 @@ class Path
 {
 
     /**
+     * @param string $path
+     *
+     * @return string
+     */
+    public static function converToDotNotation( string $path ): string
+    {
+        return str_replace( [ '/', '\\' ], '.', $path );
+    }
+
+    /**
      * Joins given paths with directory separator
      *
      * @param string[] ...$paths

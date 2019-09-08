@@ -94,7 +94,7 @@ final class MakeModuleCommand extends BaseCommand
 
         $output->writeln( 'Resolving application base namespace...' );
 
-        $baseNamespace   = Resolver::getBaseNamespace( Path::join( $this->getRootDir(), '.' ) );
+        $baseNamespace   = Resolver::getBaseNamespace( Path::join( $this->getFilesystem()->getCwd(), '.' ) );
         $moduleNamespace = $baseNamespace . '\\' . $this->modulesNamespace . '\\' . $moduleName;
         $fullClassName   = $moduleNamespace . '\\' . $moduleName . 'Module';
         $output->writeln( "Resolved namespace: $moduleNamespace" );
@@ -156,7 +156,8 @@ final class MakeModuleCommand extends BaseCommand
      */
     private function createModuleDirectory( string $moduleName, string $moduleFileContent ): void
     {
-        $moduleDirectory = Path::join( $this->getRootDir(), 'app', $this->modulesNamespace, $moduleName, '.' );
+        $moduleDirectory = Path::join( $this->getFilesystem()
+                                            ->getCwd(), 'app', $this->modulesNamespace, $moduleName, '.' );
         $moduleFilePath  = $moduleDirectory . $moduleName . 'Module.php';
 
         $this->getFilesystem()->dumpFile( $moduleFilePath, trim( $moduleFileContent ) );
@@ -174,7 +175,7 @@ final class MakeModuleCommand extends BaseCommand
     {
         $moduleID = lcfirst( $moduleName );
 
-        $modulesConfigFilePath = Path::join( $this->getRootDir(), 'config.' ) . 'modules.php';
+        $modulesConfigFilePath = Path::join( $this->getFilesystem()->getCwd(), 'config.' ) . 'modules.php';
 
         if ( ! $this->getFilesystem()->exists( $modulesConfigFilePath ) ) {
             $modules = <<<EOL

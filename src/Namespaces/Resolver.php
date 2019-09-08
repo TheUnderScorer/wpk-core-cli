@@ -21,8 +21,13 @@ class Resolver
      */
     public static function getBaseNamespace( string $rootDir ): string
     {
-        $composerContent = file_get_contents( $rootDir . 'composer.json' );
-        $composerJson    = json_decode( $composerContent, true );
+        $composerContent = @file_get_contents( $rootDir . 'composer.json' );
+
+        if ( empty( $composerContent ) ) {
+            throw new Exception( 'Unable to parse composer.json file.' );
+        }
+
+        $composerJson = json_decode( $composerContent, true );
 
         $namespacesPsr4 = $composerJson[ 'autoload' ][ 'psr-4' ];
         $fullNamespace  = array_keys( $namespacesPsr4 )[ 0 ];

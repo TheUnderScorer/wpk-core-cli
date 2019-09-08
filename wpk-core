@@ -20,11 +20,14 @@ foreach ( $paths as $path ) {
     }
 }
 
+$composerString = file_get_contents( __DIR__ . '/composer.json' );
+$composerJson   = json_decode( $composerString, true );
+
 /** @var Container $container */
 $container = require $rootDir . '/services.php';
 
 try {
-    $app = new Application( 'WPK Core CLI', '1.4.1' );
+    $app = new Application( 'WPK Core CLI', $composerJson[ 'version' ] );
     $app->add( $container->make( InstallCommand::class ) );
     $app->add( $container->make( MakeModuleCommand::class ) );
 

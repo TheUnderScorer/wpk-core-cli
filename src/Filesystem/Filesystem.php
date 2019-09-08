@@ -33,4 +33,12 @@ class Filesystem extends SymfonyFileSystem
         return require $file;
     }
 
+    /**
+     * @return string
+     */
+    public function getCwd(): string
+    {
+        return getcwd();
+    }
+
 }

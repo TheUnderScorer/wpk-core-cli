@@ -4,6 +4,7 @@ namespace UnderScorer\CoreCli\Tests;
 
 use Illuminate\Container\Container;
 use PHPUnit\Framework\TestCase as PHPUnitTestCase;
+use UnderScorer\CoreCli\Filesystem\Path;
 
 /**
  * Class TestCase
@@ -53,7 +54,7 @@ abstract class TestCase extends PHPUnitTestCase
      */
     public static function setRootDir( string $rootDir ): void
     {
-        $rootDirDotted       = str_replace( [ '/', '\\' ], '.', $rootDir );
+        $rootDirDotted       = Path::converToDotNotation( $rootDir );
         self::$rootDirDotted = $rootDirDotted;
 
         self::$rootDir = $rootDir;

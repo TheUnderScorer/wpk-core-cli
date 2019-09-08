@@ -88,29 +88,26 @@ final class MakeModuleCommandTest extends TestCase
         EOL;
 
         $this->fsMock
-            ->expects( $this->at( 0 ) )
+            ->expects( $this->exactly( 2 ) )
             ->method( 'dumpFile' )
-            ->with( $expectedModuleFilePath, trim( $expectedModule ) );
+            ->withConsecutive(
+                [ $expectedModuleFilePath, trim( $expectedModule ) ],
+                [ $configModulePath, trim( $expectedModuleConfigFile ) ]
+            );
 
         $this->fsMock
-            ->expects( $this->at( 1 ) )
+            ->expects( $this->once() )
             ->method( 'exists' )
             ->willReturn( true )
             ->with( $configModulePath );
 
         $this->fsMock
-            ->expects( $this->at( 2 ) )
+            ->expects( $this->once() )
             ->method( 'require' )
             ->with( $configModulePath )
             ->willReturn( [
                 'some' => 'UnderScorer\Modules\Some\SomeModule',
             ] );
-
-        $this->fsMock
-            ->expects( $this->at( 3 ) )
-            ->method( 'dumpFile' )
-            ->with( $configModulePath, trim( $expectedModuleConfigFile ) );
-
         $this->commandTester->execute( [
             MakeModuleCommand::MODULE_NAME => 'Test',
         ] );
@@ -161,20 +158,18 @@ final class MakeModuleCommandTest extends TestCase
         EOL;
 
         $this->fsMock
-            ->expects( $this->at( 0 ) )
+            ->expects( $this->exactly( 2 ) )
             ->method( 'dumpFile' )
-            ->with( $expectedModuleFilePath, trim( $expectedModule ) );
+            ->withConsecutive(
+                [ $expectedModuleFilePath, trim( $expectedModule ) ],
+                [ $expectedModuleConfigFilePath, trim( $expectedModuleConfigFile ) ],
+                );
 
         $this->fsMock
-            ->expects( $this->at( 1 ) )
+            ->expects( $this->at( 4 ) )
             ->method( 'exists' )
             ->willReturn( false )
             ->with( $expectedModuleConfigFilePath );
-
-        $this->fsMock
-            ->expects( $this->at( 2 ) )
-            ->method( 'dumpFile' )
-            ->with( $expectedModuleConfigFilePath, trim( $expectedModuleConfigFile ) );
 
         $this->commandTester->execute( [
             MakeModuleCommand::MODULE_NAME => 'Test',
@@ -202,9 +197,14 @@ final class MakeModuleCommandTest extends TestCase
                 'dumpFile',
                 'require',
                 'getContents',
+                'getCwd',
             ] )
             ->disableOriginalConstructor()
             ->getMock();
+
+        $this->fsMock
+            ->method( 'getCwd' )
+            ->willReturn( $this->getRootDir() );
 
         $container->singleton( Filesystem::class, function () {
             return $this->fsMock;
