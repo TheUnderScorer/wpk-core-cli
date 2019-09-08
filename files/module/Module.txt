@@ -1,0 +1,25 @@
+<?php
+
+namespace %%NAMESPACE&&;
+
+use UnderScorer\Core\Module;
+
+/**
+ * Class %%MODULE_NAME%%
+ * @package %%NAMESPACE%%
+ */
+class %%MODULE_NAME%% extends Module
+{
+
+    /**
+     * Performs module bootstrap
+     *
+     * @return void
+     * @throws BindingResolutionException
+     */
+    protected function bootstrap(): void
+    {
+
+    }
+
+}

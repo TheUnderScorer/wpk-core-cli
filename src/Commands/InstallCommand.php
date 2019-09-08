@@ -2,17 +2,19 @@
 
 namespace UnderScorer\CoreCli\Commands;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
+use UnderScorer\CoreCli\Filesystem\Path;
 
 /**
  * Class Install
  * @package UnderScorer\Core\Cli\Commands
  */
-class InstallCommand extends BaseCommand
+final class InstallCommand extends BaseCommand
 {
 
     /**
@@ -23,27 +25,7 @@ class InstallCommand extends BaseCommand
     /**
      * @var string
      */
-    protected $commandName = 'app:install';
-
-    /**
-     * @var string
-     */
-    protected $commandDescription = 'Installs wpk-core plugin.';
-
-    /**
-     * @var string
-     */
     protected $targetDir = '';
-
-    /**
-     * @var string
-     */
-    protected $pluginName = 'WPK Core';
-
-    /**
-     * @var string
-     */
-    protected $pluginDescription = 'WPK Core plugin';
 
     /**
      * @return void
@@ -51,8 +33,8 @@ class InstallCommand extends BaseCommand
     protected function configure(): void
     {
         $this
-            ->setName( $this->commandName )
-            ->setDescription( $this->commandDescription )
+            ->setName( 'app:install' )
+            ->setDescription( 'Installs wpk-core plugin' )
             ->addArgument(
                 self::PLUGIN_DIR,
                 InputArgument::OPTIONAL,
@@ -65,11 +47,12 @@ class InstallCommand extends BaseCommand
      * @param InputInterface  $input
      * @param OutputInterface $output
      *
-     * @return int|void|null
+     * @return void
+     * @throws BindingResolutionException
      */
     protected function execute( InputInterface $input, OutputInterface $output )
     {
-        $this->targetDir = getcwd() . DIRECTORY_SEPARATOR . $input->getArgument( self::PLUGIN_DIR );
+        $this->targetDir = Path::join( getcwd(), $input->getArgument( self::PLUGIN_DIR ) );
 
         $output->writeln( "Creating plugin files at {$this->targetDir}" );
 
@@ -88,8 +71,8 @@ class InstallCommand extends BaseCommand
      */
     protected function createTargetDir(): void
     {
-        if ( ! $this->filesystem->exists( $this->targetDir ) ) {
-            $this->filesystem->mkdir( $this->targetDir );
+        if ( ! $this->getFilesystem()->exists( $this->targetDir ) ) {
+            $this->getFilesystem()->mkdir( $this->targetDir );
         }
     }
 
@@ -100,7 +83,7 @@ class InstallCommand extends BaseCommand
     {
         $filesDir = $this->getFilesDir();
 
-        $this->filesystem->mirror( $filesDir, $this->targetDir );
+        $this->getFilesystem()->mirror( $filesDir, $this->targetDir );
     }
 
     /**
@@ -108,13 +91,14 @@ class InstallCommand extends BaseCommand
      */
     protected function getFilesDir(): string
     {
-        return $this->rootDir . DIRECTORY_SEPARATOR . 'files';
+        return Path::join( $this->getRootDir(), 'files.plugin' );
     }
 
     /**
      * @param OutputInterface $output
      *
      * @return void
+     * @throws BindingResolutionException
      */
     protected function installDependencies( OutputInterface $output ): void
     {
@@ -124,6 +108,8 @@ class InstallCommand extends BaseCommand
 
     /**
      * @param OutputInterface $output
+     *
+     * @throws BindingResolutionException
      */
     protected function handleComposer( OutputInterface $output ): void
     {
@@ -156,10 +142,18 @@ class InstallCommand extends BaseCommand
      *
      * @param array           $commands
      * @param OutputInterface $output
+     *
+     * @throws BindingResolutionException
      */
     protected function handleProcess( array $commands, OutputInterface $output ): void
     {
-        $process = new Process( implode( '&&', $commands ), $this->targetDir, null, null, false );
+        $process = $this->getContainer()->make( Process::class, [
+            'command' => implode( '&&', $commands ),
+            'cwd'     => $this->targetDir,
+            'env'     => null,
+            'input'   => null,
+            'timeout' => false,
+        ] );
 
         $process->run( function ( $type, $line ) use ( $output ) {
             $output->write( $line );
@@ -172,6 +166,8 @@ class InstallCommand extends BaseCommand
 
     /**
      * @param OutputInterface $output
+     *
+     * @throws BindingResolutionException
      */
     protected function handleNPM( OutputInterface $output ): void
     {
