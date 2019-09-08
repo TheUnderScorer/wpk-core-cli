@@ -5,7 +5,7 @@ namespace UnderScorer\CoreCli\Commands;
 use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Contracts\Container\Container as ContainerInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Filesystem\Filesystem;
+use UnderScorer\CoreCli\Filesystem\Filesystem;
 
 /**
  * Class BaseCommand
@@ -20,7 +20,7 @@ abstract class BaseCommand extends Command
     private $container;
 
     /**
-     * @var FileSystem
+     * @var Filesystem
      */
     private $filesystem;
 

@@ -6,7 +6,7 @@ namespace UnderScorer\CoreCli\Filesystem;
  * Class Path
  * @package UnderScorer\CoreCli\Filesystem
  */
-final class Path
+class Path
 {
 
     /**

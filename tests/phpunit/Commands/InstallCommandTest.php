@@ -6,9 +6,9 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Process\Process;
 use UnderScorer\CoreCli\Commands\InstallCommand;
+use UnderScorer\CoreCli\Filesystem\Filesystem;
 use UnderScorer\CoreCli\Filesystem\Path;
 use UnderScorer\CoreCli\Tests\TestCase;
 

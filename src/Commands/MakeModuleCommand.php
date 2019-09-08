@@ -3,12 +3,14 @@
 namespace UnderScorer\CoreCli\Commands;
 
 use Exception;
+use Illuminate\Support\Arr;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use UnderScorer\CoreCli\Filesystem\Path;
 use UnderScorer\CoreCli\Namespaces\Resolver;
+use UnderScorer\CoreCli\Output\Exports;
 
 /**
  * TODO Add created module into config/modules.php
@@ -93,18 +95,21 @@ final class MakeModuleCommand extends BaseCommand
 
         $output->writeln( 'Resolving application base namespace...' );
 
-        $baseNamespace = Resolver::getBaseNamespace( Path::join( $this->getRootDir(), '.' ) );
-        $namespace     = $baseNamespace . '\\' . $this->modulesNamespace . '\\' . $moduleName;
+        $baseNamespace   = Resolver::getBaseNamespace( Path::join( $this->getRootDir(), '.' ) );
+        $moduleNamespace = $baseNamespace . '\\' . $this->modulesNamespace . '\\' . $moduleName;
+        $fullClassName   = $moduleNamespace . '\\' . $moduleName . 'Module';
+        $output->writeln( "Resolved namespace: $moduleNamespace" );
 
-        $output->writeln( "Resolved namespace: $namespace" );
-
-        $moduleFile = self::setupModuleFile( $moduleTemplate, $moduleName, $namespace );
+        $moduleFile = self::setupModuleFile( $moduleTemplate, $moduleName, $moduleNamespace );
 
         $output->writeln( 'Creating module file...' );
 
         $this->createModuleDirectory( $moduleName, $moduleFile );
 
         $output->writeln( "<comment>Module $moduleName created!</comment>" );
+        $output->writeln( 'Adding module into modules.php ...' );
+
+        $this->appendToModules( $fullClassName, $moduleName );
     }
 
     /**
@@ -154,6 +159,56 @@ final class MakeModuleCommand extends BaseCommand
         $moduleFilePath  = $moduleDirectory . $moduleName . 'Module.php';
 
         $this->getFilesystem()->dumpFile( $moduleFilePath, trim( $moduleFileContent ) );
+    }
+
+    /**
+     * Appends module into modules config
+     *
+     * @param string $moduleClass
+     * @param string $moduleName
+     *
+     * @return void
+     */
+    private function appendToModules( string $moduleClass, string $moduleName ): void
+    {
+        $moduleID               = lcfirst( $moduleName );
+        $partialModuleClassName = Arr::last( explode( '\\', $moduleClass ) );
+
+        $modulesConfigFilePath = Path::join( $this->getRootDir(), 'config.' ) . 'modules.php';
+
+        if ( ! $this->getFilesystem()->exists( $modulesConfigFilePath ) ) {
+            $modules = <<<EOL
+            <?php
+            
+            return [
+                '$moduleID' => '$moduleClass',
+            ];
+            EOL;
+
+            $this->getFilesystem()->dumpFile( $modulesConfigFilePath, trim( $modules ) );
+
+            return;
+        }
+
+        $configArr = $this->getFilesystem()->require( $modulesConfigFilePath );
+
+        if ( ! is_array( $configArr ) ) {
+            throw new RuntimeException( 'Invalid `modules.php` config received, make sure that it is an file that returns an array of modules IDs and their class references.' );
+        }
+
+        $configArr[ $moduleID ] = $moduleClass;
+
+        $configArrAsString     = Exports::varExport( $configArr, true );
+        $configArrFixedSlashes = str_replace( '\\\\', '\\', $configArrAsString );
+
+        $configFileContent = <<<EOL
+        <?php
+        
+        return $configArrFixedSlashes;
+        EOL;
+
+        $this->getFilesystem()->dumpFile( $modulesConfigFilePath, trim( $configFileContent ) );
+
     }
 
 }

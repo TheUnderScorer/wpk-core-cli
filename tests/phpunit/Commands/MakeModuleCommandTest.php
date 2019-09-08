@@ -7,8 +7,8 @@ use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Symfony\Component\Console\Tester\CommandTester;
-use Symfony\Component\Filesystem\Filesystem;
 use UnderScorer\CoreCli\Commands\MakeModuleCommand;
+use UnderScorer\CoreCli\Filesystem\Filesystem;
 use UnderScorer\CoreCli\Filesystem\Path;
 use UnderScorer\CoreCli\Tests\TestCase;
 
@@ -45,10 +45,20 @@ final class MakeModuleCommandTest extends TestCase
     /**
      * @return void
      */
-    public function testExecute(): void
+    public function testExecuteWithExistentConfig(): void
     {
         $expectedModulePath     = Path::join( self::getRootDirDotted(), 'app.Modules.Test', '.' );
         $expectedModuleFilePath = $expectedModulePath . 'TestModule.php';
+        $configModulePath       = Path::join( self::getRootDir(), 'config.' ) . 'modules.php';
+
+        $expectedModuleConfigFile = <<<EOL
+            <?php
+            
+            return [
+                'some' => 'UnderScorer\Modules\Some\SomeModule',
+                'test' => 'UnderScorer\Modules\Test\TestModule',
+            ];
+            EOL;
 
         $expectedModule = <<<EOL
         <?php
@@ -78,9 +88,93 @@ final class MakeModuleCommandTest extends TestCase
         EOL;
 
         $this->fsMock
-            ->expects( $this->once() )
+            ->expects( $this->at( 0 ) )
             ->method( 'dumpFile' )
             ->with( $expectedModuleFilePath, trim( $expectedModule ) );
+
+        $this->fsMock
+            ->expects( $this->at( 1 ) )
+            ->method( 'exists' )
+            ->willReturn( true )
+            ->with( $configModulePath );
+
+        $this->fsMock
+            ->expects( $this->at( 2 ) )
+            ->method( 'require' )
+            ->with( $configModulePath )
+            ->willReturn( [
+                'some' => 'UnderScorer\Modules\Some\SomeModule',
+            ] );
+
+        $this->fsMock
+            ->expects( $this->at( 3 ) )
+            ->method( 'dumpFile' )
+            ->with( $configModulePath, trim( $expectedModuleConfigFile ) );
+
+        $this->commandTester->execute( [
+            MakeModuleCommand::MODULE_NAME => 'Test',
+        ] );
+    }
+
+    /**
+     * @return void
+     */
+    public function testExecuteWithNonExistentConfig(): void
+    {
+        $expectedModulePath           = Path::join( self::getRootDirDotted(), 'app.Modules.Test', '.' );
+        $expectedModuleFilePath       = $expectedModulePath . 'TestModule.php';
+        $expectedModuleConfigFilePath = Path::join( self::getRootDir(), 'config.' ) . 'modules.php';
+
+        $expectedModuleConfigFile = <<<EOL
+            <?php
+            
+            return [
+                'test' => 'UnderScorer\Modules\Test\TestModule',
+            ];
+            EOL;
+
+        $expectedModule = <<<EOL
+        <?php
+        
+        namespace UnderScorer\Modules\Test;
+        
+        use UnderScorer\Core\Module;
+        
+        /**
+         * Class TestModule
+         * @package UnderScorer\Modules\Test
+         */
+        class TestModule extends Module
+        {
+        
+            /**
+             * Performs module bootstrap
+             *
+             * @return void
+             */
+            protected function bootstrap(): void
+            {
+        
+            }
+        
+        }
+        EOL;
+
+        $this->fsMock
+            ->expects( $this->at( 0 ) )
+            ->method( 'dumpFile' )
+            ->with( $expectedModuleFilePath, trim( $expectedModule ) );
+
+        $this->fsMock
+            ->expects( $this->at( 1 ) )
+            ->method( 'exists' )
+            ->willReturn( false )
+            ->with( $expectedModuleConfigFilePath );
+
+        $this->fsMock
+            ->expects( $this->at( 2 ) )
+            ->method( 'dumpFile' )
+            ->with( $expectedModuleConfigFilePath, trim( $expectedModuleConfigFile ) );
 
         $this->commandTester->execute( [
             MakeModuleCommand::MODULE_NAME => 'Test',
@@ -98,7 +192,17 @@ final class MakeModuleCommandTest extends TestCase
 
         $this->fsMock = $this
             ->getMockBuilder( Filesystem::class )
-            ->onlyMethods( [ 'exists', 'mkdir', 'mirror', 'copy', 'touch', 'tempnam', 'dumpFile' ] )
+            ->onlyMethods( [
+                'exists',
+                'mkdir',
+                'mirror',
+                'copy',
+                'touch',
+                'tempnam',
+                'dumpFile',
+                'require',
+                'getContents',
+            ] )
             ->disableOriginalConstructor()
             ->getMock();
 

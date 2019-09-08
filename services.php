@@ -2,9 +2,9 @@
 
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\Container as ContainerInterface;
-use Symfony\Component\Filesystem\Filesystem;
 use UnderScorer\CoreCli\Commands\InstallCommand;
 use UnderScorer\CoreCli\Commands\MakeModuleCommand;
+use UnderScorer\CoreCli\Filesystem\Filesystem;
 
 $container = new Container();
 
