@@ -22,6 +22,8 @@ abstract class TestCase extends PHPUnitTestCase
      */
     private static $rootDir;
 
+    private static $rootDirDotted = '';
+
     /**
      * @return Container
      */
@@ -51,7 +53,26 @@ abstract class TestCase extends PHPUnitTestCase
      */
     public static function setRootDir( string $rootDir ): void
     {
+        $rootDirDotted       = str_replace( [ '/', '\\' ], '.', $rootDir );
+        self::$rootDirDotted = $rootDirDotted;
+
         self::$rootDir = $rootDir;
+    }
+
+    /**
+     * @return string
+     */
+    public static function getRootDirDotted(): string
+    {
+        return self::$rootDirDotted;
+    }
+
+    /**
+     * @param string $rootDirDotted
+     */
+    public static function setRootDirDotted( string $rootDirDotted ): void
+    {
+        self::$rootDirDotted = $rootDirDotted;
     }
 
 }

@@ -4,6 +4,7 @@
 use Illuminate\Container\Container;
 use Symfony\Component\Console\Application;
 use UnderScorer\CoreCli\Commands\InstallCommand;
+use UnderScorer\CoreCli\Commands\MakeModuleCommand;
 
 $rootDir = __DIR__;
 
@@ -22,10 +23,11 @@ foreach ( $paths as $path ) {
 /** @var Container $container */
 $container = require $rootDir . '/services.php';
 
-$app = new Application( 'WPK Core CLI', '1.2.6' );
-$app->add( $container->make( InstallCommand::class ) );
-
 try {
+    $app = new Application( 'WPK Core CLI', '1.2.6' );
+    $app->add( $container->make( InstallCommand::class ) );
+    $app->add( $container->make( MakeModuleCommand::class ) );
+
     $app->run();
 } catch ( Exception $e ) {
     echo "Error occured: {$e->getMessage()}";

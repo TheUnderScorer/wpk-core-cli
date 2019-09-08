@@ -25,6 +25,11 @@ final class InstallCommand extends BaseCommand
     /**
      * @var string
      */
+    protected static $defaultName = 'app:install';
+
+    /**
+     * @var string
+     */
     protected $targetDir = '';
 
     /**
@@ -33,7 +38,6 @@ final class InstallCommand extends BaseCommand
     protected function configure(): void
     {
         $this
-            ->setName( 'app:install' )
             ->setDescription( 'Installs wpk-core plugin' )
             ->addArgument(
                 self::PLUGIN_DIR,

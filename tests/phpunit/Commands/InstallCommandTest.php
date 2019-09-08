@@ -142,7 +142,7 @@ final class InstallCommandTest extends TestCase
             $container->make( InstallCommand::class, [ 'rootDir' => self::getRootDir() ] )
         );
 
-        $command             = $app->find( 'app:install' );
+        $command             = $app->find( InstallCommand::getDefaultName() );
         $this->commandTester = new CommandTester( $command );
     }
 
@@ -156,8 +156,6 @@ final class InstallCommandTest extends TestCase
         $this->processCalls = 0;
 
         $container = self::getContainer();
-        $container->forgetInstance( Filesystem::class );
-        $container->forgetInstance( Process::class );
 
         unset( $container[ Filesystem::class ] );
         unset( $container[ Process::class ] );

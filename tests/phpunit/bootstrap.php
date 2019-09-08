@@ -10,4 +10,4 @@ require_once $rootDir . 'vendor/autoload.php';
 $container = require $rootDir . 'services.php';
 
 TestCase::setContainer( $container );
-TestCase::setRootDir( $rootDir );
+TestCase::setRootDir( realpath( $rootDir ) );
