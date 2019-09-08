@@ -6,14 +6,13 @@ namespace WPK\Core;
 Plugin Name: WPK Core
 Plugin URI: https://wpkraken.io/
 Description: WPK Core plugin framework
-Author: WP Przemysław Żydek
+Author: Przemysław Żydek
 Author URI: https://wpkraken.io/
-Version: 1.3.6
+Version: 0.1
 Text Domain: wpk-core
 */
 
 use Exception;
-use UnderScorer\Core\AcfSettings;
 use UnderScorer\Core\App;
 use UnderScorer\Core\Settings;
 
@@ -28,7 +27,6 @@ $slug = CORE_SLUG;
 require_once $dir . '/vendor/autoload.php';
 
 try {
-
     $settings = new Settings( $slug );
 
     $app = new App(
