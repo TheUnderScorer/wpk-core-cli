@@ -11,6 +11,8 @@ use UnderScorer\CoreCli\Filesystem\Path;
 use UnderScorer\CoreCli\Namespaces\Resolver;
 
 /**
+ * TODO Add created module into config/modules.php
+ *
  * Class MakeModuleCommand
  * @package UnderScorer\CoreCli\Commands
  */
