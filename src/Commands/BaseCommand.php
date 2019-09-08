@@ -2,8 +2,8 @@
 
 namespace UnderScorer\CoreCli\Commands;
 
-use Illuminate\Container\Container;
 use Illuminate\Contracts\Container\BindingResolutionException;
+use Illuminate\Contracts\Container\Container as ContainerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -15,7 +15,7 @@ abstract class BaseCommand extends Command
 {
 
     /**
-     * @var Container
+     * @var ContainerInterface
      */
     private $container;
 
@@ -32,13 +32,13 @@ abstract class BaseCommand extends Command
     /**
      * BaseCommand constructor.
      *
-     * @param Container   $container
-     * @param string      $rootDir
-     * @param string|null $name
+     * @param ContainerInterface $container
+     * @param string             $rootDir
+     * @param string|null        $name
      *
      * @throws BindingResolutionException
      */
-    public function __construct( Container $container, string $rootDir, string $name = null )
+    public function __construct( ContainerInterface $container, string $rootDir, string $name = null )
     {
         parent::__construct( $name );
 
@@ -88,19 +88,19 @@ abstract class BaseCommand extends Command
     }
 
     /**
-     * @return Container
+     * @return ContainerInterface
      */
-    public function getContainer(): Container
+    public function getContainer(): ContainerInterface
     {
         return $this->container;
     }
 
     /**
-     * @param Container $container
+     * @param ContainerInterface $container
      *
      * @return self
      */
-    public function setContainer( Container $container ): self
+    public function setContainer( ContainerInterface $container ): self
     {
         $this->container = $container;
 
